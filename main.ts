@@ -114,6 +114,26 @@ function countSafeReports(reports: number[][]) {
   return safeCount;
 }
 
+function countSafeReportsWithDampener(reports: number[][]) {
+  let safeCount = 0;
+  for (const report of reports) {
+    if (isSafe(report)) {
+      safeCount++;
+    }
+    else {
+      for (let i = 0; i < report.length; i++) {
+        const subReport = report.filter((_, index) => index !== i);
+        if (isSafe(subReport)) {
+          safeCount++;
+          break;
+        }
+      }
+    }
+  }
+
+  return safeCount;
+}
+
 function main() {
   console.log("Day 1");
   {
@@ -126,6 +146,7 @@ function main() {
   {
     const reports = readDay2Input("inputs/day02.txt");
     console.log("Part 1 =", countSafeReports(reports));
+    console.log("Part 2 =", countSafeReportsWithDampener(reports));
   }
 }
 
